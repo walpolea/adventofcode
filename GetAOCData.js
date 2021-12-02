@@ -1,3 +1,9 @@
+// node GetAOCData.js [year] [day] [sessionID]
+// Your sessionID can be found in your AoC browser cookies, it's what ensures the data you pull is yours
+// You may also put your sessionID in a .env file and omit it from the executing script above
+// .env should have this:
+// AOC_COOKIE_SESSION_ID=[YOUR ID HERE]
+
 const axios = require("axios");
 const fs = require("fs");
 require("dotenv").config();
