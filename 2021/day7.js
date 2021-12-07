@@ -14,8 +14,11 @@ function getFuelCost(p, dest) {
   // return Math.abs(dest - p);
 
   //part 2
-  const d = Math.abs(dest - p);
-  return [...Array(d + 1).keys()].reduce((a, c) => a + c);
+  let sum = 0;
+  for (let i = Math.abs(dest - p); i > 0; i--) {
+    sum += i;
+  }
+  return sum;
 }
 
 function calculateFuel(pos, dest) {
@@ -37,13 +40,8 @@ function run() {
   positions.forEach((p) => {
     if (!tried.includes(p)) {
       const fuel = calculateFuel(positions, p);
-      // console.log(fuel);
 
-      if (lowestFuel === undefined) {
-        lowestFuel = fuel;
-      }
-
-      if (lowestFuel > fuel) {
+      if (lowestFuel > fuel || lowestFuel === undefined) {
         lowestFuel = fuel;
         lowestPosition = p;
       }
