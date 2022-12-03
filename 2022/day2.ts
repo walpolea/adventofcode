@@ -23,90 +23,64 @@ class RPSThrow {
     'Z': RPSThrow.winAgainst,
   }
 
+  static WinAgainstMap:object = {
+    "Rock":"Paper",
+    "Paper":"Scissors",
+    "Scissors":"Rock"
+  }
+
+  static LoseAgainstMap:object = {
+    "Rock":"Scissors",
+    "Paper":"Rock",
+    "Scissors":"Paper"
+  }
+
+  static TieAgainstMap:object = {
+    "Rock":"Rock",
+    "Paper":"Paper",
+    "Scissors":"Scissors"
+  }
+
   static tieAgainst( throwValue:ThrowValue ):ThrowValue {
-    switch( throwValue ) {
-      case "Rock":
-        return "Rock";
-      break;
-      case "Paper":
-        return "Paper";
-      break;
-      case "Scissors":
-        return "Scissors";
-      break;
-    }
+    return RPSThrow.TieAgainstMap[throwValue];
   }
 
   static winAgainst( throwValue:ThrowValue ):ThrowValue {
-    switch( throwValue ) {
-      case "Rock":
-        return "Paper";
-      break;
-      case "Paper":
-        return "Scissors";
-      break;
-      case "Scissors":
-        return "Rock";
-      break;
-    }
+    return RPSThrow.WinAgainstMap[throwValue];
   }
 
   static loseAgainst( throwValue:ThrowValue ):ThrowValue {
-    switch( throwValue ) {
-      case "Rock":
-        return "Scissors";
-      break;
-      case "Paper":
-        return "Rock";
-      break;
-      case "Scissors":
-        return "Paper";
-      break;
-    }
+    return RPSThrow.LoseAgainstMap[throwValue];
+  }
+
+  static rockAgainstPointsMap:object = {
+    "Rock":3,
+    "Paper":0,
+    "Scissors":6
+  }
+
+  static paperAgainstPointsMap:object = {
+    "Rock":6,
+    "Paper":3,
+    "Scissors":0
+  }
+
+  static scissorsAgainstPointsMap:object = {
+    "Rock":0,
+    "Paper":6,
+    "Scissors":3
   }
 
   static rockAgainst( throwValue:RPSThrow ):number {
-    switch( throwValue.type ) {
-      case "Rock":
-        return 3;
-      break;
-      case "Paper":
-        return 0;
-      break;
-      case "Scissors":
-        return 6;
-      break;
-    }
-
-    
+    return RPSThrow.rockAgainstPointsMap[throwValue.type];
   }
 
   static paperAgainst( throwValue:RPSThrow ):number {
-    switch( throwValue.type ) {
-      case "Rock":
-        return 6;
-      break;
-      case "Paper":
-        return 3;
-      break;
-      case "Scissors":
-        return 0;
-      break;
-    }
+    return RPSThrow.paperAgainstPointsMap[throwValue.type];
   }
 
   static scissorsAgainst( throwValue:RPSThrow ):number {
-    switch( throwValue.type ) {
-      case "Rock":
-        return 0;
-      break;
-      case "Paper":
-        return 6;
-      break;
-      case "Scissors":
-        return 3;
-      break;
-    }
+    return RPSThrow.scissorsAgainstPointsMap[throwValue.type];
   }
 
   static PlayMap:object = {
