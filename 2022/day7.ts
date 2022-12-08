@@ -62,21 +62,6 @@ class Directory implements IFile {
   }
 }
 
-const COMMANDS = {
-  "cd": (dir, pwd?:Directory):Directory|undefined => {
-    if(!pwd) {
-      return new Directory(dir);
-    } else {
-      return pwd.getDir(dir);
-    }
-  },
-  "ls": (pwd?:Directory) => {
-    if( pwd ) {
-
-    }
-  }
-}
-
 function changeDirectory(dir, pwd?:Directory):Directory|undefined {
   if(!pwd) {
     return new Directory(dir);
@@ -89,24 +74,26 @@ function processOutput( output:string[], pwd?:Directory ) {
 
   let currentLine:string[] | undefined = output.shift()?.split(' ');
 
-  if( currentLine?.[0] === "$" ) {
+  if( currentLine?.[0] === "$" ) { //if it's a command
 
     const [_, cmd, arg] = currentLine;
     switch( cmd ) {
       case "cd":
         pwd = changeDirectory(arg, pwd);
         break;
-      case "ls":
+      case "ls": 
+        //because I'm processing each line and handling files as an assumed ls output,
+        //I can ignore the ls command all together
         break;
     }
 
-  } else if(currentLine?.length === 2 ) {
+  } else if(currentLine?.length === 2 ) { //othewrwise if it's a file
     
     let f:IFile;
 
-    if( currentLine?.[0] === "dir") {
+    if( currentLine?.[0] === "dir") { //if it's a directory
       f = new Directory( currentLine?.[1], pwd );
-    } else {
+    } else { //otherwise it's a data file
       f = new DataFile( currentLine[1], parseInt( currentLine[0]) );
     }
 
