@@ -143,10 +143,12 @@ class Tree {
   }
 }
 
+//Turn all the heights into trees
 grid = grid.map( row => {
   return row.map( tree => new Tree( tree ) );
 });
 
+//Now set the neightbors for each tree
 grid = grid.map( (row, y) => {
   return row.map( (tree, x) => {
     tree.north = grid?.[y-1]?.[x];
@@ -158,8 +160,7 @@ grid = grid.map( (row, y) => {
   } );
 });
 
-console.log( grid[0][0], grid[0][0].seenAtAll() );
-
+//get the total seen trees from any direction
 const seenTrees = grid.reduce( (total, seen) => {
   return [...total, ...seen.filter( tree => {
     return tree.seenAtAll(); 
@@ -168,12 +169,11 @@ const seenTrees = grid.reduce( (total, seen) => {
 
 console.log( seenTrees.length ); //Part 1
 
-
 //Part 2
+//get the total scenic scores for al trees and sort them descending
 const scores = grid.reduce( (scores, row) => {
   return [...scores, ...row.map( tree => tree.scenicScore ).filter( s => s)];
 }, []);
-
 
 console.log( scores.sort( (a,b) => b - a), scores[0] );
 
