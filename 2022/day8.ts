@@ -4,6 +4,8 @@ const fileData = await Deno.readTextFile("./day8.txt");
 
 let grid = fileData.split('\n').map( r => r.split('') );
 
+type Direction = "north" | "south" | "east" |"west";
+
 class Tree {
 
   constructor( 
@@ -14,56 +16,14 @@ class Tree {
     public west?:Tree
   ) {}
 
-  seenFromNorth():boolean {
+  seenFrom( direction:Direction ):boolean {
     let e:Tree|undefined = this;
     
-    while(e?.north) {
-      if( this.height <= e.north.height ) {
+    while(e?.[direction]) {
+      if( this.height <= (e[direction]?.height ?? 0) ) {
         return false;
       } else {
-        e = e.north;
-      }
-    }
-
-    return true;
-  }
-
-  seenFromSouth():boolean {
-    let e:Tree|undefined = this;
-    
-    while(e?.south) {
-      if( this.height <= e.south.height ) {
-        return false;
-      } else {
-        e = e.south;
-      }
-    }
-
-    return true;
-  }
-
-  seenFromEast():boolean {
-    let e:Tree|undefined = this;
-    
-    while(e?.east) {
-      if( this.height <= e.east.height ) {
-        return false;
-      } else {
-        e = e.east;
-      }
-    }
-
-    return true;
-  }
-
-  seenFromWest():boolean {
-    let e:Tree|undefined = this;
-    
-    while(e?.west) {
-      if( this.height <= e.west.height ) {
-        return false;
-      } else {
-        e = e.west;
+        e = e[direction];
       }
     }
 
@@ -71,76 +31,29 @@ class Tree {
   }
 
   seenAtAll():boolean {
-    return this.seenFromEast() || this.seenFromNorth() || this.seenFromSouth() || this.seenFromWest();
+    return this.seenFrom("north") || this.seenFrom("south") || this.seenFrom("east") || this.seenFrom("west");
+  }
+
+  getTotalSeen( direction:Direction ):number {
+    let e:Tree|undefined = this;
+    let seen = 0;
+    
+    while(e?.[direction]) {
+      seen++;
+      if( this.height <= (e[direction]?.height ?? 0) ) {
+        return seen;
+      } else {
+        e = e[direction];
+      }
+    }
+
+    return seen;
   }
 
   get scenicScore():number {
-    return this.getTotalSeenEast() * this.getTotalSeenNorth() * this.getTotalSeenSouth() * this.getTotalSeenWest();
+    return this.getTotalSeen("north") * this.getTotalSeen("south") * this.getTotalSeen("east") * this.getTotalSeen("west");
   }
 
-  getTotalSeenEast():number {
-    let e:Tree|undefined = this;
-    let seen = 0;
-    
-    while(e?.east) {
-      seen++;
-      if( this.height <= e.east.height ) {
-        return seen;
-      } else {
-        e = e.east;
-      }
-    }
-
-    return seen;
-  }
-
-  getTotalSeenWest():number {
-    let e:Tree|undefined = this;
-    let seen = 0;
-    
-    while(e?.west) {
-      seen++;
-      if( this.height <= e.west.height ) {
-        return seen;
-      } else {
-        e = e.west;
-      }
-    }
-
-    return seen;
-  }
-
-  getTotalSeenNorth():number {
-    let e:Tree|undefined = this;
-    let seen = 0;
-    
-    while(e?.north) {
-      seen++;
-      if( this.height <= e.north.height ) {
-        return seen;
-      } else {
-        e = e.north;
-      }
-    }
-
-    return seen;
-  }
-
-  getTotalSeenSouth():number {
-    let e:Tree|undefined = this;
-    let seen = 0;
-    
-    while(e?.south) {
-      seen++;
-      if( this.height <= e.south.height ) {
-        return seen;
-      } else {
-        e = e.south;
-      }
-    }
-
-    return seen;
-  }
 }
 
 //Turn all the heights into trees
