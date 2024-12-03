@@ -3,8 +3,6 @@ const fileData = await Deno.readTextFile("./day2.txt");
 const data = fileData
   .split("\n").filter( l => l);
 
-  
-  
   const levels = data.map( l => l.split(" ").map( n => parseInt(n) ));
   
   console.log(levels);
