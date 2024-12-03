@@ -21,7 +21,7 @@ const parser = {
     }
   },
   'do': {
-    regex: /do()/g,
+    regex: /do\(\)/g,
     parse: (m) => {
       return {
         action: 'do',
@@ -30,7 +30,7 @@ const parser = {
     }
   },
   'dont': {
-    regex: /don't()/g,
+    regex: /don't\(\)/g,
     parse: (m) => {
       return {
         action: 'dont',
